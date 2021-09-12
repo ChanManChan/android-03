@@ -1,9 +1,10 @@
-package com.u4.distancetracker
+package com.u4.distancetracker.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import com.u4.distancetracker.R
 import com.u4.distancetracker.util.Permissions.hasLocationPermission
 
 class MainActivity : AppCompatActivity() {

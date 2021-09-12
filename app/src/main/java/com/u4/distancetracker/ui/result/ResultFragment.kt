@@ -1,10 +1,11 @@
-package com.u4.distancetracker
+package com.u4.distancetracker.ui.result
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.u4.distancetracker.R
 
 class ResultFragment : Fragment() {
     override fun onCreateView(
