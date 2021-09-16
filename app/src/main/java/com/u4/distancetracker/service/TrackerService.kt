@@ -14,6 +14,7 @@ import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.model.LatLng
+import com.u4.distancetracker.ui.maps.MapUtil.calculateTheDistance
 import com.u4.distancetracker.util.Constants.ACTION_SERVICE_START
 import com.u4.distancetracker.util.Constants.ACTION_SERVICE_STOP
 import com.u4.distancetracker.util.Constants.LOCATION_FASTEST_UPDATE_INTERVAL
@@ -40,17 +41,22 @@ class TrackerService : LifecycleService() {
             result.locations.let { locations ->
                 for (location in locations) {
                     updateLocationList(location)
+                    updateNotificationsPeriodically()
                 }
             }
         }
     }
 
     companion object {
+        val startTime = MutableLiveData<Long>()
+        val stopTime = MutableLiveData<Long>()
         val started = MutableLiveData<Boolean>()
         val locationList = MutableLiveData<MutableList<LatLng>>()
     }
 
     private fun setInitialValues() {
+        startTime.postValue(0L)
+        stopTime.postValue(0L)
         started.postValue(false)
         locationList.postValue(mutableListOf())
     }
@@ -100,10 +106,19 @@ class TrackerService : LifecycleService() {
         )
         stopForeground(true)
         stopSelf()
+        stopTime.postValue(System.currentTimeMillis())
     }
 
     private fun removeLocationUpdates() {
         fusedLocationProviderClient.removeLocationUpdates(locationCallback)
+    }
+
+    private fun updateNotificationsPeriodically() {
+        notification.apply {
+            setContentTitle("Distance Travelled")
+            setContentText(locationList.value?.let { calculateTheDistance(it) } + "km")
+        }
+        notificationManager.notify(NOTIFICATION_ID, notification.build())
     }
 
     @SuppressLint("MissingPermission")
@@ -118,6 +133,7 @@ class TrackerService : LifecycleService() {
             locationCallback,
             Looper.getMainLooper()
         )
+        startTime.postValue(System.currentTimeMillis())
     }
 
     private fun createNotificationChannel() {

@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="tracking"
+            type="com.u4.distancetracker.ui.maps.MapsFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -42,6 +45,7 @@
             android:id="@+id/hint_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:observeTracking="@{tracking.started}"
             android:text="@string/tap_on_my_location_button"
             android:textColor="@color/black"
             android:textSize="20sp"
@@ -68,8 +72,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="@string/stop"
             android:backgroundTint="@color/red"
+            android:observeTracking="@{tracking.started}"
+            android:text="@string/stop"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -80,10 +85,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="@string/reset"
             android:backgroundTint="@color/orange"
-            app:icon="@drawable/ic_reset"
+            android:text="@string/reset"
             android:visibility="invisible"
+            app:icon="@drawable/ic_reset"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
